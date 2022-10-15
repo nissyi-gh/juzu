@@ -7,7 +7,13 @@ module Juzu
     attr_accessor :commands
 
     def initialize
-      @commnads = Preset.load_presets
+      @commands = Preset.load_presets
+    end
+
+    def exec
+      @commands.each do |command|
+        command.exec
+      end
     end
 
     def self.load_presets
@@ -25,6 +31,10 @@ module Juzu
     def initialize(command, type)
       @command = command
       @type = type.nil? ? 1 : type
+    end
+
+    def exec
+      system @command
     end
   end
 end
