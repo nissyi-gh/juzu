@@ -8,4 +8,4 @@ module Juzu
   # Your code goes here...
 end
 
-Juzu::Preset.new.exec
+Juzu::Preset.new.exec if __FILE__ == $PROGRAM_NAME
