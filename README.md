@@ -16,7 +16,12 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+1. Create the `/.juzu/presets.yml` on your home directory.
+
+```sh
+$ mkdir ~/.juzu
+$ touch ~/.juzu/presets.yml
+```
 
 ## Development
 
