@@ -4,16 +4,36 @@ require 'yaml'
 
 module Juzu
   class Preset
-    attr_accessor :commands
+    attr_accessor :commands, :exec_status, :successes, :failures
 
     def initialize
+      @successes = []
+      @failures = []
+      @exec_status = 0
       @commands = Preset.load_presets
     end
 
     def exec
-      @commands.each do |command|
-        command.exec
+      @commands[0...-1].each do |command|
+        command.exec ? @successes << command : @failures << command
       end
+
+      unless @failures.empty?
+        puts "期待しない動作で終了したコマンドがあります。"
+        @failures.each do |command|
+          puts command.command
+        end
+
+        puts "最終コマンド#{@commands.last.command}を実行しますか？[y/N]"
+        if STDIN.gets.chomp == "y"
+          puts "実行します"
+        else
+          puts '実行をキャンセルします'
+          @exec_status = 1
+        end
+      end
+
+      @commands.last.exec if @exec_status == 0
     end
 
     def self.load_presets
